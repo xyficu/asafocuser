@@ -1,17 +1,36 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace ASAFocuser
 {
     public partial class MainForm : Form
     {
         FocuserUser focuserUser;
+        FocuserNet focuserNet;
+        Thread focNetThd;
         public MainForm()
         {
             InitializeComponent();
             timerFocUpdateStat.Interval = 100;
             timerFocUpdateStat.Enabled = true;
+
+            //connect to device driver
+            focuserUser = new FocuserUser();
+            focuserUser.ConnectDevice();
+
+            //connect to host
+            focuserNet = new FocuserNet(focuserUser);
+            focNetThd = new Thread(new ThreadStart(focuserNet.ConnectToHost));
+            focNetThd.IsBackground = true;
+            focNetThd.Start();
+
+        }
+
+        ~MainForm()
+        {
+            Console.WriteLine("main form disposed..");
         }
 
         private void buttonFocusMove_Click(object sender, EventArgs e)
@@ -39,8 +58,7 @@ namespace ASAFocuser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            focuserUser = new FocuserUser();
-            focuserUser.ConnectDevice();
+
         }
 
         private void UpdateStatus()

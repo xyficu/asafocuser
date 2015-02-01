@@ -24,6 +24,7 @@ namespace ASAFocuser
                 {
                     //从配置文件获取Focuser ID
                     //TBD
+                    m_deviceID = "ACCServer.Focuser";
                     if (m_deviceID == "")
                     {
                         m_deviceID = Focuser.Choose("ACCServer.Focuser");
@@ -34,7 +35,8 @@ namespace ASAFocuser
                         }
                         else
                         {
-                            //保存调焦器名称到配置文件TBD
+                            //保存调焦器名称到配置文件
+                            //TBD
                             m_focuser = new Focuser(m_deviceID);
                             m_focParams.connected = true;
                         }
@@ -66,7 +68,7 @@ namespace ASAFocuser
         {
             try
             {
-                if (null != m_focuser || m_focuser.Connected == true)
+                if (null != m_focuser && m_focuser.Connected == true)
                 {
                     if (m_focuser.TempCompAvailable)
                     {
@@ -86,7 +88,7 @@ namespace ASAFocuser
         {
             try
             {
-                if (null != m_focuser || m_focuser.Connected == true)
+                if (null != m_focuser && m_focuser.Connected == true)
                 {
                     if (m_focuser.TempCompAvailable)
                     {
@@ -108,7 +110,7 @@ namespace ASAFocuser
         {
             try
             {
-                if (null != m_focuser || m_focuser.Connected == true)
+                if (null != m_focuser && m_focuser.Connected == true)
                 {
                     return m_focuser.Position / 1000.0;
                 }
@@ -129,7 +131,7 @@ namespace ASAFocuser
         {
             try
             {
-                if (null != m_focuser || m_focuser.Connected == true)
+                if (null != m_focuser && m_focuser.Connected == true)
                 {
                     return m_focuser.Temperature;
                 }
@@ -150,7 +152,7 @@ namespace ASAFocuser
         {
             try
             {
-                if (null != m_focuser || m_focuser.Connected == true)
+                if (null != m_focuser && m_focuser.Connected == true)
                 {
                     return m_focuser.IsMoving;
                 }

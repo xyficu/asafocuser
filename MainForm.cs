@@ -78,22 +78,22 @@ namespace ASAFocuser
             }
 
             //当前位置
-            textBoxFocusCurPos.Text = focuserUser.GetCurPos().ToString("f3");
+            labelFocusCurPos.Text = focuserUser.GetCurPos().ToString("f3");
 
             //移动状态
             switch (focuserUser.GetMoveStatus())
             {
                 case true:
-                    textBoxFocusCurStatus.Text = "Moving...";
+                    labelFocusCurStat.Text = "Moving...";
                     break;
                 case false:
                 default:
-                    textBoxFocusCurStatus.Text = "Stopped";
+                    labelFocusCurStat.Text = "Stopped";
                     break;
             }
 
             //温度
-            textBoxFocusCurTemp.Text = focuserUser.GetCurTemp().ToString("f1");
+            labelFocusCurTemp.Text = focuserUser.GetCurTemp().ToString("f1");
 
             //进度条
             progressBarFocus.Value = (int)(focuserUser.GetCurPos() / 30.0 * 100);

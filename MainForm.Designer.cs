@@ -46,11 +46,11 @@
             this.connectDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBoxFocusCurPos = new System.Windows.Forms.TextBox();
-            this.textBoxFocusCurStatus = new System.Windows.Forms.TextBox();
-            this.textBoxFocusCurTemp = new System.Windows.Forms.TextBox();
             this.labelFocusLinkStat = new System.Windows.Forms.Label();
             this.timerFocUpdateStat = new System.Windows.Forms.Timer(this.components);
+            this.labelFocusCurPos = new System.Windows.Forms.Label();
+            this.labelFocusCurStat = new System.Windows.Forms.Label();
+            this.labelFocusCurTemp = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -106,6 +106,7 @@
             // 
             // buttonFocusStop
             // 
+            this.buttonFocusStop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonFocusStop.ForeColor = System.Drawing.Color.Red;
             this.buttonFocusStop.Location = new System.Drawing.Point(110, 48);
             this.buttonFocusStop.Name = "buttonFocusStop";
@@ -117,6 +118,7 @@
             // 
             // buttonFocusMove
             // 
+            this.buttonFocusMove.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonFocusMove.ForeColor = System.Drawing.Color.LimeGreen;
             this.buttonFocusMove.Location = new System.Drawing.Point(110, 19);
             this.buttonFocusMove.Name = "buttonFocusMove";
@@ -148,6 +150,7 @@
             // 
             // buttonFocusStepMoveDec
             // 
+            this.buttonFocusStepMoveDec.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonFocusStepMoveDec.Location = new System.Drawing.Point(110, 50);
             this.buttonFocusStepMoveDec.Name = "buttonFocusStepMoveDec";
             this.buttonFocusStepMoveDec.Size = new System.Drawing.Size(75, 23);
@@ -158,6 +161,7 @@
             // 
             // buttonFocusStepMoveInc
             // 
+            this.buttonFocusStepMoveInc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonFocusStepMoveInc.Location = new System.Drawing.Point(110, 21);
             this.buttonFocusStepMoveInc.Name = "buttonFocusStepMoveInc";
             this.buttonFocusStepMoveInc.Size = new System.Drawing.Size(75, 23);
@@ -181,7 +185,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(261, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(244, 25);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -214,33 +218,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(55, 21);
             this.aboutToolStripMenuItem.Text = "&About";
             // 
-            // textBoxFocusCurPos
-            // 
-            this.textBoxFocusCurPos.Enabled = false;
-            this.textBoxFocusCurPos.Location = new System.Drawing.Point(131, 30);
-            this.textBoxFocusCurPos.Name = "textBoxFocusCurPos";
-            this.textBoxFocusCurPos.Size = new System.Drawing.Size(64, 21);
-            this.textBoxFocusCurPos.TabIndex = 1;
-            this.textBoxFocusCurPos.Text = "0";
-            // 
-            // textBoxFocusCurStatus
-            // 
-            this.textBoxFocusCurStatus.Enabled = false;
-            this.textBoxFocusCurStatus.Location = new System.Drawing.Point(131, 58);
-            this.textBoxFocusCurStatus.Name = "textBoxFocusCurStatus";
-            this.textBoxFocusCurStatus.Size = new System.Drawing.Size(64, 21);
-            this.textBoxFocusCurStatus.TabIndex = 3;
-            this.textBoxFocusCurStatus.Text = "Stopped";
-            // 
-            // textBoxFocusCurTemp
-            // 
-            this.textBoxFocusCurTemp.Enabled = false;
-            this.textBoxFocusCurTemp.Location = new System.Drawing.Point(131, 86);
-            this.textBoxFocusCurTemp.Name = "textBoxFocusCurTemp";
-            this.textBoxFocusCurTemp.Size = new System.Drawing.Size(64, 21);
-            this.textBoxFocusCurTemp.TabIndex = 5;
-            this.textBoxFocusCurTemp.Text = "0";
-            // 
             // labelFocusLinkStat
             // 
             this.labelFocusLinkStat.AutoSize = true;
@@ -254,19 +231,46 @@
             // 
             this.timerFocUpdateStat.Tick += new System.EventHandler(this.timerFocUpdateStat_Tick);
             // 
+            // labelFocusCurPos
+            // 
+            this.labelFocusCurPos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelFocusCurPos.Location = new System.Drawing.Point(132, 35);
+            this.labelFocusCurPos.Name = "labelFocusCurPos";
+            this.labelFocusCurPos.Size = new System.Drawing.Size(72, 15);
+            this.labelFocusCurPos.TabIndex = 10;
+            this.labelFocusCurPos.Text = "0";
+            // 
+            // labelFocusCurStat
+            // 
+            this.labelFocusCurStat.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelFocusCurStat.Location = new System.Drawing.Point(132, 63);
+            this.labelFocusCurStat.Name = "labelFocusCurStat";
+            this.labelFocusCurStat.Size = new System.Drawing.Size(72, 15);
+            this.labelFocusCurStat.TabIndex = 11;
+            this.labelFocusCurStat.Text = "Stopped";
+            // 
+            // labelFocusCurTemp
+            // 
+            this.labelFocusCurTemp.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelFocusCurTemp.Location = new System.Drawing.Point(132, 91);
+            this.labelFocusCurTemp.Name = "labelFocusCurTemp";
+            this.labelFocusCurTemp.Size = new System.Drawing.Size(72, 15);
+            this.labelFocusCurTemp.TabIndex = 12;
+            this.labelFocusCurTemp.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 386);
+            this.ClientSize = new System.Drawing.Size(244, 386);
+            this.Controls.Add(this.labelFocusCurTemp);
+            this.Controls.Add(this.labelFocusCurStat);
+            this.Controls.Add(this.labelFocusCurPos);
             this.Controls.Add(this.labelFocusLinkStat);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBoxFocusCurTemp);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBoxFocusCurStatus);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBoxFocusCurPos);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -303,12 +307,12 @@
         private System.Windows.Forms.ToolStripMenuItem fileFToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBoxFocusCurPos;
-        private System.Windows.Forms.TextBox textBoxFocusCurStatus;
-        private System.Windows.Forms.TextBox textBoxFocusCurTemp;
         private System.Windows.Forms.Label labelFocusLinkStat;
         private System.Windows.Forms.Timer timerFocUpdateStat;
         private System.Windows.Forms.ToolStripMenuItem connectDeviceToolStripMenuItem;
+        private System.Windows.Forms.Label labelFocusCurPos;
+        private System.Windows.Forms.Label labelFocusCurStat;
+        private System.Windows.Forms.Label labelFocusCurTemp;
     }
 }
 

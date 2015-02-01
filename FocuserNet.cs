@@ -17,6 +17,7 @@ namespace ASAFocuser
         string m_errMsg;
         bool m_connected;
         FocuserUser m_focUser;
+        Timer m_timerHousekeep;
         public FocuserNet(FocuserUser focUser)
         {
             m_focUser = focUser;
@@ -27,9 +28,15 @@ namespace ASAFocuser
             m_errMsg = "";
             m_connected = false;
 
+            //启动消息接收线程
             Thread thd = new Thread(new ThreadStart(ReceiveMessage));
             thd.IsBackground = true;
             thd.Start();
+
+            //启动housekeeping线程
+            m_timerHousekeep = new Timer(new TimerCallback(HouseKeeping), null ,0, 10000);
+            m_timerHousekeep.Change(0, 10000);
+
         }
 
         ~FocuserNet()
@@ -49,6 +56,13 @@ namespace ASAFocuser
             }
         }
 
+        private void HouseKeeping(object o)
+        {
+            //获取系统时间
+            string lt = GetLocalTime(); 
+            //每隔10s由设备端发给服务器
+            SendMessage("RF,HOUSEKEEPING," + lt);
+        }
 
         //设备端反向连接
         public void ConnectToHost()
@@ -60,6 +74,7 @@ namespace ASAFocuser
                     Console.WriteLine("try to connect to host ...");
                     m_sktDev.Connect(m_ep);
                     m_connected = true;
+                    //连接成功后发送注册消息
                     SendMessage("FOCUSER");
                     
                 }
@@ -191,14 +206,14 @@ namespace ASAFocuser
         private string GetLocalTime()
         {
             return DateTime.Now.Year.ToString() +
-                        DateTime.Now.Month.ToString() +
-                        DateTime.Now.Day.ToString() +
+                        DateTime.Now.Month.ToString("d2") +
+                        DateTime.Now.Day.ToString("d2") +
                         "T" +
-                        DateTime.Now.Hour.ToString() +
-                        DateTime.Now.Minute.ToString() +
-                        DateTime.Now.Second.ToString() +
+                        DateTime.Now.Hour.ToString("d2") +
+                        DateTime.Now.Minute.ToString("d2") +
+                        DateTime.Now.Second.ToString("d2") +
                         "." +
-                        DateTime.Now.Millisecond.ToString();
+                        DateTime.Now.Millisecond.ToString("d3");
         }
     }
 }

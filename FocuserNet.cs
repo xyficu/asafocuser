@@ -18,6 +18,7 @@ namespace ASAFocuser
         bool m_connected;
         FocuserUser m_focUser;
         Timer m_timerHousekeep;
+        Timer m_timerAutoCon;
         public FocuserNet(FocuserUser focUser)
         {
             m_focUser = focUser;
@@ -37,6 +38,9 @@ namespace ASAFocuser
             m_timerHousekeep = new Timer(new TimerCallback(HouseKeeping), null ,0, 10000);
             m_timerHousekeep.Change(0, 10000);
 
+            //自动重连
+            m_timerAutoCon = new Timer(new TimerCallback(AutoReCon), null, 0, 5000);
+            m_timerAutoCon.Change(0, 5000);
         }
 
         ~FocuserNet()
@@ -69,15 +73,19 @@ namespace ASAFocuser
         {
             try
             {
-                while (m_connected == false)
+                while (true)
                 {
-                    Console.WriteLine("try to connect to host ...");
-                    m_sktDev.Connect(m_ep);
-                    m_connected = true;
-                    //连接成功后发送注册消息
-                    SendMessage("FOCUSER");
-                    
+                    while (m_connected == false)
+                    {
+                        Console.WriteLine("try to connect to host ...");
+                        m_sktDev.Connect(m_ep);
+                        m_connected = true;
+                        //连接成功后发送注册消息
+                        SendMessage("FOCUSER");
+                    }
+                    Thread.Sleep(5000);
                 }
+
 
             }
             catch (System.Exception ex)
@@ -89,6 +97,27 @@ namespace ASAFocuser
             }
         }
 
+        //自动重连
+        public void AutoReCon(object o)
+        {
+            //try
+            //{
+            //    byte[] buf=new byte[1024];
+            //    if (m_sktDev.Poll(10, SelectMode.SelectRead))
+            //    {
+            //        int nRead = m_sktDev.Receive(buf);
+            //        if (nRead==0)
+            //        {
+            //            m_connected = false;
+            //        }
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    m_errMsg = ex.Message;
+            //    m_connected = false;
+            //}
+        }
         
         public void SendMessage(string msg)
         {

@@ -29,18 +29,10 @@ namespace ASAFocuser
             m_errMsg = "";
             m_connected = false;
 
-            //启动消息接收线程
-            Thread thd = new Thread(new ThreadStart(ReceiveMessage));
-            thd.IsBackground = true;
-            thd.Start();
-
             //启动housekeeping线程
             m_timerHousekeep = new Timer(new TimerCallback(HouseKeeping), null ,0, 10000);
-            m_timerHousekeep.Change(0, 10000);
 
-            //自动重连
-            m_timerAutoCon = new Timer(new TimerCallback(AutoReCon), null, 0, 5000);
-            m_timerAutoCon.Change(0, 5000);
+
         }
 
         ~FocuserNet()
@@ -73,51 +65,32 @@ namespace ASAFocuser
         {
             try
             {
-                while (true)
-                {
-                    while (m_connected == false)
-                    {
-                        Console.WriteLine("try to connect to host ...");
-                        m_sktDev.Connect(m_ep);
-                        m_connected = true;
-                        //连接成功后发送注册消息
-                        SendMessage("FOCUSER");
-                    }
-                    Thread.Sleep(5000);
-                }
 
+                while (m_connected == false)
+                {
+                    Console.WriteLine("try to connect to host ...");
+                    m_sktDev.Connect(m_ep);
+                    m_connected = true;
+                    //连接成功后发送注册消息
+                    SendMessage("FOCUSER");
+
+                    //启动消息接收线程
+                    Thread thd = new Thread(new ThreadStart(ReceiveMessage));
+                    thd.IsBackground = true;
+                    thd.Start();
+                }
 
             }
             catch (System.Exception ex)
             {
                 Thread.Sleep(5000);
-            	m_errMsg=ex.Message;
+                m_errMsg = ex.Message;
                 m_connected = false;
                 ConnectToHost();
             }
         }
 
-        //自动重连
-        public void AutoReCon(object o)
-        {
-            //try
-            //{
-            //    byte[] buf=new byte[1024];
-            //    if (m_sktDev.Poll(10, SelectMode.SelectRead))
-            //    {
-            //        int nRead = m_sktDev.Receive(buf);
-            //        if (nRead==0)
-            //        {
-            //            m_connected = false;
-            //        }
-            //    }
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    m_errMsg = ex.Message;
-            //    m_connected = false;
-            //}
-        }
+
         
         public void SendMessage(string msg)
         {
@@ -133,6 +106,11 @@ namespace ASAFocuser
             catch (System.Exception ex)
             {
                 Console.Write("send message error: " + ex.Message);
+                m_sktDev.Close();
+                m_sktDev = new Socket(AddressFamily.InterNetwork, SocketType.Stream,
+                                        ProtocolType.IP);
+                m_connected = false;
+                ConnectToHost();
             }
 
         }
@@ -156,7 +134,6 @@ namespace ASAFocuser
             {
                 m_errMsg = ex.Message;
                 Console.WriteLine("resolve message error: " + ex.Message);
-                ReceiveMessage();
             }
         }
 
